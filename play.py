@@ -142,6 +142,9 @@ def main() -> None:
     if args.depth < 1:
         parser.error("--depth must be >= 1")
 
+    if args.max_moves < 1:
+        parser.error("--max-moves must be >= 1")
+
     if args.self_play:
         self_play(args.depth, args.max_moves)
     else:
