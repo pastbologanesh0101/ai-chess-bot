@@ -16,6 +16,18 @@ is implemented from scratch in [`chess_bot/`](chess_bot/).
 This is a chess *engine*, not a two-player game UI — there's no shared
 board/GUI project here, just a bot that decides its own moves.
 
+## Table of contents
+
+- [How it works](#how-it-works)
+  - [Search: minimax + alpha-beta](#search-minimax--alpha-beta-chess_botsearchpy)
+  - [Evaluation](#evaluation-chess_botevaluationpy)
+- [Install](#install)
+- [Run](#run)
+- [Tests](#tests)
+- [Project layout](#project-layout)
+- [Troubleshooting / FAQ](#troubleshooting--faq)
+- [License](#license)
+
 ## How it works
 
 ### Search: minimax + alpha-beta (`chess_bot/search.py`)
