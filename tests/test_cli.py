@@ -47,3 +47,9 @@ def test_self_play_with_valid_args_runs_and_exits_cleanly():
     result = run_play("--self-play", "--depth", "1", "--max-moves", "2")
     assert result.returncode == 0
     assert "AI Chess Bot" in result.stdout
+
+
+def test_version_flag_prints_version_and_exits_zero():
+    result = run_play("--version")
+    assert result.returncode == 0
+    assert "0.1.0" in result.stdout

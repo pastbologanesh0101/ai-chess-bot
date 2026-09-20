@@ -8,4 +8,6 @@ ordering, and evaluation function -- is implemented in this package.
 from .evaluation import evaluate
 from .search import ChessEngine, SearchStats, order_moves
 
-__all__ = ["evaluate", "ChessEngine", "SearchStats", "order_moves"]
+__version__ = "0.1.0"
+
+__all__ = ["evaluate", "ChessEngine", "SearchStats", "order_moves", "__version__"]

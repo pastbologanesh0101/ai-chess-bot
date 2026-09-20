@@ -18,6 +18,7 @@ import time
 
 import chess
 
+from chess_bot import __version__
 from chess_bot.evaluation import evaluate
 from chess_bot.search import ChessEngine
 
@@ -130,6 +131,11 @@ def self_play(depth: int, max_moves: int = 60) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Play chess against a minimax/alpha-beta AI bot.")
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
+    )
     parser.add_argument("--depth", type=int, default=3, help="search depth (default: 3)")
     parser.add_argument("--color", choices=["white", "black"], default="white",
                          help="which color the human plays (default: white)")
