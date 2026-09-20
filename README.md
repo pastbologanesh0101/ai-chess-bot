@@ -132,7 +132,7 @@ python -m pytest tests/ -v
 
 All tests run in well under a second and are also run in CI (see
 [`.github/workflows/tests.yml`](.github/workflows/tests.yml)) on Python
-3.11 and 3.12.
+3.11, 3.12, and 3.13.
 
 ## Project layout
 
