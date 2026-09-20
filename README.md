@@ -147,6 +147,37 @@ ai-chess-bot/
 └── .github/workflows/tests.yml
 ```
 
+## Troubleshooting / FAQ
+
+**The bot takes a long time to move at high depth.**
+Minimax + alpha-beta still grows roughly exponentially with depth even
+with move ordering. Depth 3 is fast (well under a second per move on a
+normal laptop), depth 4-5 is noticeably slower, and depth 6+ can take
+tens of seconds in the middlegame where there are more legal moves to
+search. Start at depth 3 and increase only as far as you're willing to
+wait.
+
+**`ModuleNotFoundError: No module named 'chess'`**
+Install dependencies first: `pip install -r requirements.txt`. This
+project relies on `python-chess` for board representation and legal
+move generation — it isn't vendored, so it must be installed.
+
+**"illegal move: ..." when I enter a move I think is legal.**
+`parse_move` accepts both algebraic (`Nf3`, `O-O`) and UCI (`g1f3`)
+notation, but a move must be unambiguous and legal *in the current
+position*. Common causes: using the wrong disambiguation for a piece
+(e.g. `Nf3` when two knights could reach f3 — try `Ngf3`/`Nbf3`), or
+typing a square-only UCI move for a pawn promotion without the
+promotion piece suffix (use `e7e8q`, not `e7e8`).
+
+**Why is `python-chess` a dependency instead of writing move generation
+from scratch?**
+Board representation and legal move generation (including castling,
+en passant, promotion, and check detection) are well-solved, easy to get
+subtly wrong, and not what makes an engine "an AI." This project's scope
+is the search algorithm and evaluation function in `chess_bot/`, both
+implemented from scratch — see [How it works](#how-it-works).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
