@@ -169,6 +169,44 @@ class MoveOrderingTests(unittest.TestCase):
         )
 
 
+class ChooseMoveDepthOverrideTests(unittest.TestCase):
+    def test_choose_move_depth_argument_overrides_constructor_depth(self):
+        """`choose_move(board, depth=N)` should use N instead of the depth
+        the engine was constructed with, and reflect that in node count."""
+        board = chess.Board(
+            "r1bqkb1r/pppp1ppp/2n2n2/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4"
+        )
+        engine = ChessEngine(depth=3)
+
+        _, _ = engine.choose_move(board.copy(), depth=1)
+        nodes_depth_1 = engine.stats.nodes_visited
+
+        _, _ = engine.choose_move(board.copy(), depth=3)
+        nodes_depth_3 = engine.stats.nodes_visited
+
+        self.assertLess(
+            nodes_depth_1,
+            nodes_depth_3,
+            "a depth=1 override should visit far fewer nodes than the "
+            "engine's own depth=3, proving the argument takes effect",
+        )
+
+
+class MoveOrderingPromotionTests(unittest.TestCase):
+    def test_promotion_ordered_before_quiet_moves(self):
+        """A pawn promotion with no capture available should still be
+        ranked ahead of ordinary quiet moves (not just captures)."""
+        # White pawn on b7 can promote (b8=Q) with no captures on the board.
+        board = chess.Board("6k1/1P6/8/8/8/8/6K1/8 w - - 0 1")
+        moves = list(board.legal_moves)
+        ordered = order_moves(board, moves)
+        first_move = ordered[0]
+        self.assertIsNotNone(
+            first_move.promotion,
+            f"expected a promotion move first, got {first_move}",
+        )
+
+
 class MiscHeuristicTests(unittest.TestCase):
     def test_knight_centralization_scores_higher_than_corner(self):
         # Extra pawn included so the position isn't flagged as drawn/
